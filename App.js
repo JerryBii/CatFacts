@@ -1,13 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { StyleSheet, Text, View, SafeAreaView, Button } from 'react-native';
 
 export default function App() {
+  const[facts, setFacts] = useState([])
+  const[count, setCount] = useState(0)
+
+  useEffect(() => {
+    fetch('https://cat-fact.herokuapp.com/facts')
+      .then((response) => response.json())
+      .then((json) => setFacts(json.map(cat => cat.text)))
+      .catch((error) => console.error(error))
+  }, []);
+
+  console.log(facts)
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <SafeAreaView style={styles.container}>
+      <Text>{facts[count]}</Text>
       <StatusBar style="auto" />
-    </View>
+      <Button title='Next Fact' onPress ={() => count == 4 ? setCount(0) : setCount(count + 1)}/>
+    </SafeAreaView>
   );
 }
 
