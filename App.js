@@ -13,7 +13,6 @@ export default function App() {
       .catch((error) => console.error(error))
   }, []);
 
-  console.log(facts)
   return (
     <SafeAreaView style={styles.container}>
       <Text>{facts[count]}</Text>
